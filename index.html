@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Převod teploty</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ffba6c, #ffba6c);
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        label, select, input, output {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+        }
+        select, input {
+            background: #f4f4f4;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        output {
+            background: rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background: #ffba6c;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #ffd19c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Převod teploty</h1>
+    <div class="form-container">
+        <form>
+            <!-- Rozbalovací nabídka pro výběr převodu -->
+            <label for="conversionType">Vyberte typ převodu:</label>
+            <select id="conversionType">
+                <option value="cToF">Ze stupňů °C na stupně °F</option>
+                <option value="fToC">Ze stupňů °F na stupně °C</option>
+            </select>
+
+            <!-- Vstupní pole pro zadání teploty -->
+            <label for="temperatureInput">Zadejte teplotu:</label>
+            <input type="number" id="temperatureInput" placeholder="Zadejte hodnotu" />
+
+            <!-- Výstupní pole pro výsledek -->
+            <label for="result">Výsledek:</label>
+            <output id="result">0.00</output>
+
+            <!-- Tlačítko pro reset -->
+            <button type="button" id="reset">Resetovat</button>
+        </form>
+    </div>
+
+    <script>
+        // Odkazy na elementy
+        const conversionType = document.getElementById('conversionType');
+        const temperatureInput = document.getElementById('temperatureInput');
+        const result = document.getElementById('result');
+        const resetButton = document.getElementById('reset');
+
+        // Funkce pro převod Celsia na Fahrenheita
+        function celsiusToFahrenheit(celsius) {
+            return (celsius * 9 / 5) + 32;
+        }
+
+        // Funkce pro převod Fahrenheita na Celsia
+        function fahrenheitToCelsius(fahrenheit) {
+            return (fahrenheit - 32) * 5 / 9;
+        }
+
+        // Hlavní funkce pro výpočet na základě zvoleného převodu
+        function calculate() {
+            const value = parseFloat(temperatureInput.value);
+            if (isNaN(value)) {
+                result.textContent = '0.00';
+                return;
+            }
+
+            if (conversionType.value === 'cToF') {
+                result.textContent = celsiusToFahrenheit(value).toFixed(2) + " °F";
+            } else if (conversionType.value === 'fToC') {
+                result.textContent = fahrenheitToCelsius(value).toFixed(2) + " °C";
+            }
+        }
+
+        // Resetování formuláře
+        resetButton.addEventListener('click', () => {
+            temperatureInput.value = '';
+            result.textContent = '0.00';
+        });
+
+        // Událost při změně vstupu
+        temperatureInput.addEventListener('input', calculate);
+    </script>
+</body>
+</html>
